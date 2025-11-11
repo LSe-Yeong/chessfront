@@ -10,9 +10,17 @@
     width: 70px;
     height: 70px;
     background-color: black;
+    display: flex;    
+    justify-content: center; 
+    align-items: center;    
 }
 
 .chess-board-row {
     display: flex;
     flex-direction: row;
+}
+
+.piece {
+    margin-bottom: 15px;
+    font-size: 80px;
 }
