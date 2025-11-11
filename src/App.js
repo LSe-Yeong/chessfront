@@ -1,7 +1,7 @@
 import { Routes, Route,Router } from "react-router-dom";
 import './App.css';
-import ChessBoard from "./page/chess/ChessBoard";
-import MainPage from "./page/MainPage";
+import ChessBoard from "./game/page/ChessBoard";
+import MainPage from "./MainPage";
 
 function App() {
   return (
