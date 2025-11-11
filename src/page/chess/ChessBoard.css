@@ -1,0 +1,18 @@
+.chess-board {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 105px;
+}
+
+.chess-block {
+    width: 70px;
+    height: 70px;
+    background-color: black;
+}
+
+.chess-board-row {
+    display: flex;
+    flex-direction: row;
+}
