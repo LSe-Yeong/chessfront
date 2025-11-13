@@ -11,6 +11,8 @@ export function findMoveable(blackPieces, whitePieces, row, col, color) {
     console.log(pieceName)
     if (pieceName.includes("pawn")) {
         findPawnMove(blackPieces,whitePieces,row,col,moveableList,color)
+    } else if (pieceName.includes("Rook")) {
+        findLookMove(blackPieces,whitePieces,row,col,moveableList,color)
     }
     return moveableList
 }
@@ -87,4 +89,53 @@ function isExistAnyColorPiece(myPieces,enemyPieces,row,col) {
         }
     }
     return false
+}
+
+function findLookMove(blackPieces,whitePieces,row,col,moveableList,color) {
+    const pieces = color === "white" ? whitePieces : blackPieces
+    const differentPieces = color === "white" ? blackPieces : whitePieces
+
+    for (let r = row - 1; r >= 0; r--) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,r,col)) {
+            moveableList.push([r,col])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,r,col)) {
+                moveableList.push([r,col])
+            }
+            break
+        }
+    }
+
+    for (let r = row + 1; r < 8; r++) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,r,col)) {
+            moveableList.push([r,col])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,r,col)) {
+                moveableList.push([r,col])
+            }
+            break
+        }
+    }
+
+    for (let c = col - 1; c >= 0; c--) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,row,c)) {
+            moveableList.push([row,c])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,row,c)) {
+                moveableList.push([row,c])
+            }
+            break
+        }
+    }
+
+    for (let c = col + 1; c < 8; c++) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,row,c)) {
+            moveableList.push([row,c])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,row,c)) {
+                moveableList.push([row,c])
+            }
+            break
+        }
+    }
 }
