@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
 
 const chessSize = 8
+const myColor = "black"
 
 function ChessBlock(props) {
     const dispatch=useDispatch();
@@ -13,6 +14,7 @@ function ChessBlock(props) {
 
     const blackPieces = data.blackPieces
     const whitePieces = data.whitePieces
+    const moveable = data.moveable
 
     const row = props.row
     const col = props.col
@@ -54,15 +56,19 @@ function ChessBlock(props) {
         }
     }
 
+    const exists = moveable.some(subArr => subArr.length === 2 && subArr[0] === row && subArr[1] === col);
     const chessBlockStyle = {
-        backgroundColor : getColorByCoordinate(row,col),
+        backgroundColor : exists ? "green" : getColorByCoordinate(row,col),
     }
 
     return (
         <div className="chess-block" style={chessBlockStyle}>
             <div className='piece' onClick={() => {
-                dispatch(updateBlackSelected({row,col}))
-                dispatch(updateWhiteSelected({row,col}))
+                if (myColor === "white") {
+                    dispatch(updateWhiteSelected({row,col}))
+                } else {
+                    dispatch(updateBlackSelected({row,col}))
+                }
             }}> {findPiece()} </div>
         </div>
     )

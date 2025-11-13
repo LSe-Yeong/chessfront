@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { chessPiecesBlack, chessPiecesWhite } from "../model/ChessPiece";
+import { findMoveable } from "../util/chessMoveUtil";
 
 const initialState = {
     blackPieces : chessPiecesBlack,
-    whitePieces : chessPiecesWhite
+    whitePieces : chessPiecesWhite,
+    moveable : [],
 }
 
 const dataSlice = createSlice({
@@ -13,6 +15,7 @@ const dataSlice = createSlice({
         //함수 작성
         updateBlackSelected: (state, action)=>{
             const { row, col } = action.payload;
+            const whitePieces = state.whitePieces
             const blackPieces = state.blackPieces
             for(let i = 0; i < blackPieces.length; i++) {
                 if (blackPieces[i]["row"] == row && blackPieces[i]["col"] == col) {
@@ -21,10 +24,12 @@ const dataSlice = createSlice({
                     blackPieces[i]["selected"] = false
                 }
             }
+            state.moveable = findMoveable(blackPieces, whitePieces,row,col,"black");
         },
         updateWhiteSelected: (state, action)=>{
             const { row, col } = action.payload;
             const whitePieces = state.whitePieces
+            const blackPieces = state.blackPieces
             for(let i = 0; i < whitePieces.length; i++) {
                 if (whitePieces[i]["row"] == row && whitePieces[i]["col"] == col) {
                     whitePieces[i]["selected"] = true
@@ -32,7 +37,8 @@ const dataSlice = createSlice({
                     whitePieces[i]["selected"] = false
                 }
             }
-        }
+            state.moveable = findMoveable(blackPieces,whitePieces,row,col,"white");
+        },
     }
 });
 
