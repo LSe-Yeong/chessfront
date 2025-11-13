@@ -15,6 +15,8 @@ export function findMoveable(blackPieces, whitePieces, row, col, color) {
         findLookMove(blackPieces,whitePieces,row,col,moveableList,color)
     } else if (pieceName.includes("Knight")) {
         findKnightMove(blackPieces,whitePieces,row,col,moveableList,color)
+    } else if (pieceName.includes("Bishop")) {
+        findBishopMove(blackPieces,whitePieces,row,col,moveableList,color)
     }
     return moveableList
 }
@@ -153,6 +155,55 @@ function findKnightMove(blackPieces,whitePieces,row,col,moveableList,color) {
         const dCol = direction[i][1]
         if (!isExistSameColorPiece(pieces,row+dRow,col+dCol)) {
             moveableList.push([row+dRow,col+dCol])
+        }
+    } 
+}
+
+function findBishopMove(blackPieces,whitePieces,row,col,moveableList,color) {
+    const pieces = color === "white" ? whitePieces : blackPieces
+    const differentPieces = color === "white" ? blackPieces : whitePieces
+    
+    for (let i = 1; row + i <= 7 && col + i <= 7; i++) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,row+i,col+i)) {
+            moveableList.push([row+i,col+i])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,row+i,col+i)) {
+                moveableList.push([row+i,col+i])
+            }
+            break
+        }
+    }
+
+    for (let i = 1; row - i >= 0 && col - i >= 0; i++) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,row-i,col-i)) {
+            moveableList.push([row-i,col-i])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,row-i,col-i)) {
+                moveableList.push([row-i,col-i])
+            }
+            break
+        }
+    }
+
+    for (let i = 1; row + i >= 0 && col - i >= 0; i++) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,row+i,col-i)) {
+            moveableList.push([row+i,col-i])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,row+i,col-i)) {
+                moveableList.push([row+i,col-i])
+            }
+            break
+        }
+    }
+
+    for (let i = 1; row - i >= 0 && col + i >= 0; i++) {
+        if (!isExistAnyColorPiece(pieces,differentPieces,row-i,col+i)) {
+            moveableList.push([row-i,col+i])
+        } else {
+            if (isExistDifferentColorPiece(differentPieces,row-i,col+i)) {
+                moveableList.push([row-i,col+i])
+            }
+            break
         }
     }
 }
