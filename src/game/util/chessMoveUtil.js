@@ -13,6 +13,8 @@ export function findMoveable(blackPieces, whitePieces, row, col, color) {
         findPawnMove(blackPieces,whitePieces,row,col,moveableList,color)
     } else if (pieceName.includes("Rook")) {
         findLookMove(blackPieces,whitePieces,row,col,moveableList,color)
+    } else if (pieceName.includes("Knight")) {
+        findKnightMove(blackPieces,whitePieces,row,col,moveableList,color)
     }
     return moveableList
 }
@@ -136,6 +138,21 @@ function findLookMove(blackPieces,whitePieces,row,col,moveableList,color) {
                 moveableList.push([row,c])
             }
             break
+        }
+    }
+}
+
+function findKnightMove(blackPieces,whitePieces,row,col,moveableList,color) {
+    const pieces = color === "white" ? whitePieces : blackPieces
+    const differentPieces = color === "white" ? blackPieces : whitePieces
+
+    const direction = [[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]]
+
+    for(let i = 0; i < direction.length; i++) {
+        const dRow = direction[i][0]
+        const dCol = direction[i][1]
+        if (!isExistSameColorPiece(pieces,row+dRow,col+dCol)) {
+            moveableList.push([row+dRow,col+dCol])
         }
     }
 }
