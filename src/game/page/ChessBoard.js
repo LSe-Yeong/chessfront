@@ -1,16 +1,21 @@
 import './ChessBoard.css'
-import {chessPiecesBlack,chessPiecesWhite} from '../model/ChessPiece.js'
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
+
 const chessSize = 8
 
 function ChessBlock(props) {
+    const dispatch=useDispatch();
+    const data=useSelector((state)=>{
+      return state.data;
+    });
+
+    const blackPieces = data.blackPieces
+    const whitePieces = data.whitePieces
 
     const row = props.row
     const col = props.col
-    const blackPieces = props.blackPieces
-    const whitePieces = props.whitePieces
-    const setBlackPieces = props.setBlackPieces
-    const setWhitePieces = props.setWhitePieces
 
     function getColorByCoordinate() {
         if ((row + col) % 2 == 0) {
@@ -56,25 +61,8 @@ function ChessBlock(props) {
     return (
         <div className="chess-block" style={chessBlockStyle}>
             <div className='piece' onClick={() => {
-                const newBlackPieces = [...blackPieces];
-                for(let i = 0; i < newBlackPieces.length; i++) {
-                    if (newBlackPieces[i]["row"]==row && newBlackPieces[i]["col"] == col) {
-                        newBlackPieces[i]["selected"] = true
-                    } else {
-                        newBlackPieces[i]["selected"] = false
-                    }
-                }
-                setBlackPieces(newBlackPieces);
-                
-                const newWhitePieces = [...whitePieces];
-                for(let i = 0; i < newWhitePieces.length; i++) {
-                    if (newWhitePieces[i]["row"]==row && newBlackPieces[i]["col"] == col) {
-                        newWhitePieces[i]["selected"] = true
-                    } else {
-                        newWhitePieces[i]["selected"] = false
-                    }
-                }
-                setWhitePieces(whitePieces);
+                dispatch(updateBlackSelected({row,col}))
+                dispatch(updateWhiteSelected({row,col}))
             }}> {findPiece()} </div>
         </div>
     )
@@ -87,10 +75,6 @@ function ChessBoardRow(props) {
         chessBoardRow.push(<ChessBlock 
             row={props.row} 
             col={c}
-            blackPieces = {props.blackPieces}
-            setBlackPieces = {props.setBlackPieces}
-            whitePieces = {props.whitePieces}
-            setWhitePieces = {props.setWhitePieces}
         ></ChessBlock>)
     }
 
@@ -102,17 +86,10 @@ function ChessBoardRow(props) {
 }
 
 function ChessBoard() {  
-    const [blackPieces, setBlackPieces] = useState(chessPiecesBlack)
-    const [whitePieces, setWhitePieces] = useState(chessPiecesWhite)
- 
     const chessBoard = []
     for (let r = 0; r < chessSize; r++) {
        chessBoard.push(<ChessBoardRow 
             row={r} 
-            blackPieces = {blackPieces} 
-            setBlackPieces = {setBlackPieces}
-            whitePieces = {whitePieces}
-            setWhitePieces = {setWhitePieces}
         ></ChessBoardRow>)
     }
 
