@@ -17,6 +17,8 @@ export function findMoveable(blackPieces, whitePieces, row, col, color) {
         findKnightMove(blackPieces,whitePieces,row,col,moveableList,color)
     } else if (pieceName.includes("Bishop")) {
         findBishopMove(blackPieces,whitePieces,row,col,moveableList,color)
+    } else if (pieceName.includes("queen")) {
+        findQueenMove(blackPieces,whitePieces,row,col,moveableList,color)
     }
     return moveableList
 }
@@ -206,4 +208,9 @@ function findBishopMove(blackPieces,whitePieces,row,col,moveableList,color) {
             break
         }
     }
+}
+
+function findQueenMove(blackPieces,whitePieces,row,col,moveableList,color) {
+    findBishopMove(blackPieces,whitePieces,row,col,moveableList,color)
+    findLookMove(blackPieces,whitePieces,row,col,moveableList,color)
 }
