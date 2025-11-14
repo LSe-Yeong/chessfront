@@ -229,3 +229,13 @@ function findKingMove(blackPieces,whitePieces,row,col,moveableList,color) {
         }
     }
 }
+
+export function findPieceIndex(pieces,row,col) {
+    console.log(row,col)
+    for(let i = 0; i < pieces.length; i++) {
+        if (pieces[i]["row"] === row && pieces[i]["col"] === col) {
+            return i
+        } 
+    }
+    return null
+}

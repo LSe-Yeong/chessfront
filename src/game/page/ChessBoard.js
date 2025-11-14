@@ -1,7 +1,7 @@
 import './ChessBoard.css'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
+import { moveChessPiece, updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
 
 const chessSize = 8
 const myColor = "black"
@@ -24,6 +24,20 @@ function ChessBlock(props) {
             return "#f5deb3"
         } 
         return "#8b4513"
+    }
+
+    function findPieceColor() {
+        for (let i = 0; i < blackPieces.length; i++) {
+            if (blackPieces[i]["row"] == row && blackPieces[i]["col"] == col) {
+                return "black"
+            }
+        }
+        for (let i = 0; i < whitePieces.length; i++) {
+            if (whitePieces[i]["row"] == row && whitePieces[i]["col"] == col) {
+                return "white"
+            }
+        }
+        return null
     }
 
     function findPiece() {
@@ -62,8 +76,17 @@ function ChessBlock(props) {
     }
 
     return (
-        <div className="chess-block" style={chessBlockStyle}>
+        <div className="chess-block" style={chessBlockStyle} onClick={() => {
+            if (exists) {
+                dispatch(moveChessPiece([row,col,myColor]))
+            }
+        }}>
             <div className='piece' onClick={() => {
+                const color = findPieceColor()
+                if (!color || color !== myColor) {
+                    return 
+                }
+
                 if (myColor === "white") {
                     dispatch(updateWhiteSelected({row,col}))
                 } else {
