@@ -19,6 +19,8 @@ export function findMoveable(blackPieces, whitePieces, row, col, color) {
         findBishopMove(blackPieces,whitePieces,row,col,moveableList,color)
     } else if (pieceName.includes("queen")) {
         findQueenMove(blackPieces,whitePieces,row,col,moveableList,color)
+    } else if (pieceName.includes("king")) {
+        findKingMove(blackPieces,whitePieces,row,col,moveableList,color)
     }
     return moveableList
 }
@@ -213,4 +215,17 @@ function findBishopMove(blackPieces,whitePieces,row,col,moveableList,color) {
 function findQueenMove(blackPieces,whitePieces,row,col,moveableList,color) {
     findBishopMove(blackPieces,whitePieces,row,col,moveableList,color)
     findLookMove(blackPieces,whitePieces,row,col,moveableList,color)
+}
+
+function findKingMove(blackPieces,whitePieces,row,col,moveableList,color) {
+    const pieces = color === "white" ? whitePieces : blackPieces
+
+    const direction = [[-1,-1],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1]]
+    for (let i = 0; i < direction.length; i++) {
+        const nRow = row + direction[i][0]
+        const nCol = col + direction[i][1]
+        if (!isExistSameColorPiece(pieces,nRow,nCol)) {
+            moveableList.push([nRow,nCol])
+        }
+    }
 }
