@@ -61,8 +61,8 @@ function findPawnMove(blackPieces, whitePieces,row,col,moveableList,color) {
         if (isExistDifferentColorPiece(blackPieces,row-1,col-1)) {
             moveableList.push([row-1,col-1])
         } 
-        if (isExistDifferentColorPiece(blackPieces,row+1,col+1)) {
-            moveableList.push([row+1,col+1])
+        if (isExistDifferentColorPiece(blackPieces,row-1,col+1)) {
+            moveableList.push([row-1,col+1])
         }
     }
 }
