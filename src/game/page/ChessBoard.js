@@ -5,9 +5,9 @@ import { moveChessPiece, moveChessPieceByName, updateBlackSelected, updateWhiteS
 import { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const chessSize = 8
-const myColor = "black"
 
 function ChessBlock(props) {
     const dispatch=useDispatch();
@@ -19,6 +19,7 @@ function ChessBlock(props) {
     const whitePieces = data.whitePieces
     const moveable = data.moveable
     const client = props.client
+    const myColor = props.color
 
     const row = props.row
     const col = props.col
@@ -109,6 +110,7 @@ function ChessBoardRow(props) {
             row={props.row} 
             col={c}
             client={props.client}
+            color={props.color}
         ></ChessBlock>)
     }
 
@@ -125,10 +127,23 @@ function ChessBoard() {
     const data=useSelector((state)=>{
       return state.data;
     });
+    const navigate = useNavigate();
+    const location = useLocation();
+    const color = location.state.color
 
     useEffect(()=> {
         const socket = new SockJS("http://localhost:8080/ws");
+    
         const stompClient = Stomp.over(socket);
+
+        setTimeout(() => {
+            if (!stompClient.connected) {
+                alert("방이 가득 찼습니다.");
+                navigate("/");
+            }
+        }, 500);
+
+        console.log(socket)
 
         stompClient.connect({}, () => {
             console.log("Connected!");
@@ -138,7 +153,12 @@ function ChessBoard() {
                 console.log(received)
                 dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
             });
-        })
+        },
+        (error) => {
+            console.error("연결 실패", error);
+            navigate("/")
+        }
+        )
 
         setClient(stompClient);
 
@@ -150,6 +170,7 @@ function ChessBoard() {
        chessBoard.push(<ChessBoardRow 
             row={r} 
             client={client}
+            color={color}
         ></ChessBoardRow>)
     }
 
