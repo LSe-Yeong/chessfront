@@ -1,7 +1,10 @@
 import './ChessBoard.css'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { moveChessPiece, updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
+import { moveChessPiece, moveChessPieceByName, updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
+import { useEffect, useState } from 'react';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 const chessSize = 8
 const myColor = "black"
@@ -15,6 +18,7 @@ function ChessBlock(props) {
     const blackPieces = data.blackPieces
     const whitePieces = data.whitePieces
     const moveable = data.moveable
+    const client = props.client
 
     const row = props.row
     const col = props.col
@@ -78,7 +82,7 @@ function ChessBlock(props) {
     return (
         <div className="chess-block" style={chessBlockStyle} onClick={() => {
             if (exists) {
-                dispatch(moveChessPiece([row,col,myColor]))
+                dispatch(moveChessPiece([row,col,myColor,client]))
             }
         }}>
             <div className='piece' onClick={() => {
@@ -104,6 +108,7 @@ function ChessBoardRow(props) {
         chessBoardRow.push(<ChessBlock 
             row={props.row} 
             col={c}
+            client={props.client}
         ></ChessBlock>)
     }
 
@@ -115,10 +120,36 @@ function ChessBoardRow(props) {
 }
 
 function ChessBoard() {  
+    const [client, setClient] = useState(null);
+    const dispatch=useDispatch();
+    const data=useSelector((state)=>{
+      return state.data;
+    });
+
+    useEffect(()=> {
+        const socket = new SockJS("http://localhost:8080/ws");
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, () => {
+            console.log("Connected!");
+
+            stompClient.subscribe("/sub/chess/move", (msg) => {
+                const received = JSON.parse(msg.body).body
+                console.log(received)
+                dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
+            });
+        })
+
+        setClient(stompClient);
+
+        return () => stompClient.disconnect();
+    },[])
+
     const chessBoard = []
     for (let r = 0; r < chessSize; r++) {
        chessBoard.push(<ChessBoardRow 
             row={r} 
+            client={client}
         ></ChessBoardRow>)
     }
 

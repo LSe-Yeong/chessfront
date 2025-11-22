@@ -49,7 +49,8 @@ const dataSlice = createSlice({
             const row = action.payload[0];
             const col = action.payload[1];
             const color = action.payload[2];
-            
+            const client = action.payload[3];
+
             const pieces = color === "white" ? state.whitePieces : state.blackPieces
             const differentPieces = color === "white" ? state.blackPieces : state.whitePieces
 
@@ -59,6 +60,22 @@ const dataSlice = createSlice({
 
             for(let i = 0; i < pieces.length; i++) {
                 if (pieces[i]["row"] == nowRow && pieces[i]["col"] == nowCol) {
+                    if (client) {
+                        client.send(
+                            "/pub/chess/move",
+                            {},
+                            JSON.stringify(
+                                {
+                                    "name" : pieces[i]["name"],
+                                    "color":color,
+                                    "beforeRow":nowRow,
+                                    "beforeCol":nowCol,
+                                    "afterRow":row,
+                                    "afterCol":col
+                                }
+                            )
+                        );
+                    }
                     pieces[i]["row"] = row
                     pieces[i]["col"] = col
                     state.moveable = []
@@ -74,8 +91,32 @@ const dataSlice = createSlice({
                 }
             }
         },
+
+        moveChessPieceByName: (state,action) => {
+            const row = action.payload[0];
+            const col = action.payload[1];
+            const color = action.payload[2];
+            const name = action.payload[3];
+
+            const pieces = color === "white" ? state.whitePieces : state.blackPieces
+            const differentPieces = color === "white" ? state.blackPieces : state.whitePieces
+
+            for (let i = 0; i < pieces.length; i++) {
+                console.log(pieces[i]["name"])
+                if (pieces[i]["name"] === name) {
+                    pieces[i]["row"] = row
+                    pieces[i]["col"] = col
+
+                    const idx = findPieceIndex(differentPieces,row,col)
+                    if (idx != null) {
+                        console.log(idx)
+                        differentPieces.splice(idx,1)
+                    }
+                }
+            }
+        }
     }
 });
 
 export default dataSlice;
-export const {updateBlackSelected, updateWhiteSelected, moveChessPiece} = dataSlice.actions; 
+export const {updateBlackSelected, updateWhiteSelected, moveChessPiece,moveChessPieceByName} = dataSlice.actions; 
