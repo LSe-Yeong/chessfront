@@ -153,6 +153,15 @@ function ChessBoard() {
                 console.log(received)
                 dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
             });
+
+            stompClient.subscribe("/sub/chess/leave", (msg) => {
+                const received = msg.body
+                console.log(received)
+                if (received === "LEAVE") {
+                    alert("상대방이 떠났습니다.")
+                    navigate("/")
+                }
+            });
         },
         (error) => {
             console.error("연결 실패", error);
@@ -162,7 +171,15 @@ function ChessBoard() {
 
         setClient(stompClient);
 
-        return () => stompClient.disconnect();
+        return () => {
+            if (stompClient && stompClient.connected) {
+                stompClient.send(
+                    "/pub/chess/leave",
+                    {},
+                );
+                stompClient.disconnect();
+            }
+        };
     },[])
 
     const chessBoard = []
