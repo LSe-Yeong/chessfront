@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { parseUuid } from '../util/basicUtil.js';
 
 const chessSize = 8
 
