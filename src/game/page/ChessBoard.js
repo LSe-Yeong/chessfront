@@ -22,6 +22,10 @@ function ChessBlock(props) {
     const client = props.client
     const myColor = props.color
     const roomId = props.roomId
+    const turn = props.turn
+    const setTurn = props.setTurn
+
+    console.log(myColor)
 
     const row = props.row
     const col = props.col
@@ -95,9 +99,13 @@ function ChessBlock(props) {
                 }
 
                 if (myColor === "white") {
-                    dispatch(updateWhiteSelected({row,col}))
+                    if (turn === myColor) {
+                        dispatch(updateWhiteSelected({row,col}))
+                    }
                 } else {
-                    dispatch(updateBlackSelected({row,col}))
+                    if (turn === myColor) {
+                        dispatch(updateBlackSelected({row,col}))
+                    }
                 }
             }}> {findPiece()} </div>
         </div>
@@ -114,6 +122,8 @@ function ChessBoardRow(props) {
             client={props.client}
             color={props.color}
             roomId={props.roomId}
+            turn={props.turn}
+            setTurn={props.setTurn}
         ></ChessBlock>)
     }
 
@@ -137,6 +147,8 @@ function ChessBoard(props) {
                 client={props.client}
                 color={props.color}
                 roomId={props.roomId}
+                turn={props.turn}
+                setTurn={props.setTurn}
             ></ChessBoardRow>)
         }
     } else {

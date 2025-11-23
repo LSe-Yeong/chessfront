@@ -73,7 +73,8 @@ const dataSlice = createSlice({
                                     "beforeRow":nowRow,
                                     "beforeCol":nowCol,
                                     "afterRow":row,
-                                    "afterCol":col
+                                    "afterCol":col,
+                                    "nextTurn": color === "white" ? "black" : "white"
                                 }
                             )
                         );

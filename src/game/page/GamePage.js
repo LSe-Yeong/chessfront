@@ -21,7 +21,8 @@ function GamePage() {
     const youColor = color === "white" ? "black" : "white"
 
     const [waiting,setWaiting] = useState(type==="JOIN" ? false : true)
-    
+    const [turn,setTurn] = useState("white")
+
     const navigate = useNavigate()
 
     useEffect(()=> {
@@ -45,6 +46,7 @@ function GamePage() {
                 const received = JSON.parse(msg.body)
                 console.log(received)
                 dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
+                setTurn(received["nextTurn"])
             });
 
             stompClient.subscribe(`/sub/chess/leave/${uuid}`, (msg) => {
@@ -101,6 +103,12 @@ function GamePage() {
                 <div style={{marginTop:"30px"}} hidden={waiting}>
                     나의 색깔 : {myColor} <br></br>
                     상대 색깔 : {youColor} <br></br>
+
+                    <br></br>
+                    <br></br>
+                    <br></br>
+
+                    현재 턴 : {turn} <br></br>
                 </div>
             </div>
             <ChessBoard 
@@ -108,6 +116,8 @@ function GamePage() {
                 client={client}
                 color={myColor}
                 waiting={waiting}
+                turn={turn}
+                setTurn={setTurn}
             ></ChessBoard>
         </div>
     )
