@@ -125,97 +125,18 @@ function ChessBoardRow(props) {
 }
 
 function ChessBoard(props) {  
-    const [client, setClient] = useState(null);
-
-    const dispatch=useDispatch();
     const data=useSelector((state)=>{
       return state.data;
     });
-    const navigate = useNavigate();
-    const location = useLocation();
-    const color = location.state.color
-
-    const uuid = props.uuid
-    const type = props.type
-
-    const [waiting,setWaiting] = useState(type==="JOIN" ? false : true)
-
-    useEffect(()=> {
-        const socket = new SockJS("http://localhost:8080/ws");
-    
-        const stompClient = Stomp.over(socket);
-
-        setTimeout(() => {
-            if (!stompClient.connected) {
-                alert("방이 가득 찼습니다.");
-                navigate("/");
-            }
-        }, 500);
-
-        console.log(socket)
-
-        stompClient.connect({roomId : uuid}, () => {
-            console.log("Connected!");
-
-            stompClient.subscribe(`/sub/chess/move/${uuid}`, (msg) => {
-                const received = JSON.parse(msg.body)
-                console.log(received)
-                dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
-            });
-
-            stompClient.subscribe(`/sub/chess/leave/${uuid}`, (msg) => {
-                const received = msg.body
-                console.log(received)
-                if (received === "LEAVE") {
-                    alert("상대방이 떠났습니다.")
-                    navigate("/")
-                }
-            });
-
-            stompClient.subscribe(`/sub/chess/status/${uuid}`, (msg) => {
-                if (msg.body === "FULL") {
-                    alert("다른 누군가가 접근하여 종료합니다.");
-                    navigate("/")
-                }
-            });
-
-            stompClient.subscribe(`/sub/chess/join/${uuid}`, (msg) => {
-                console.log("다른 유저 접속함.")
-                setWaiting(false)
-            });
-
-            if(type==="JOIN"){
-                stompClient.send("/pub/chess/join",{},uuid)
-            }
-        },
-        (error) => {
-            console.error("연결 실패", error);
-            navigate("/")
-        }
-        )
-
-        setClient(stompClient);
-
-        return () => {
-            if (stompClient && stompClient.connected) {
-                stompClient.send(
-                    "/pub/chess/leave",
-                    {},
-                    uuid
-                );
-                stompClient.disconnect();
-            }
-        };
-    },[])
 
     const chessBoard = []
-    if(!waiting) {
+    if(!props.waiting) {
         for (let r = 0; r < chessSize; r++) {
         chessBoard.push(<ChessBoardRow 
                 row={r} 
-                client={client}
-                color={color}
-                roomId={uuid}
+                client={props.client}
+                color={props.color}
+                roomId={props.roomId}
             ></ChessBoardRow>)
         }
     } else {
