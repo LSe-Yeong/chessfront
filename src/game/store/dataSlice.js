@@ -50,6 +50,7 @@ const dataSlice = createSlice({
             const col = action.payload[1];
             const color = action.payload[2];
             const client = action.payload[3];
+            const roomId = action.payload[4];
 
             const pieces = color === "white" ? state.whitePieces : state.blackPieces
             const differentPieces = color === "white" ? state.blackPieces : state.whitePieces
@@ -62,10 +63,11 @@ const dataSlice = createSlice({
                 if (pieces[i]["row"] == nowRow && pieces[i]["col"] == nowCol) {
                     if (client) {
                         client.send(
-                            "/pub/chess/move",
+                            `/pub/chess/move`,
                             {},
                             JSON.stringify(
                                 {
+                                    "roomId" : roomId,
                                     "name" : pieces[i]["name"],
                                     "color":color,
                                     "beforeRow":nowRow,

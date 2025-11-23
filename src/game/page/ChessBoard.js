@@ -21,6 +21,7 @@ function ChessBlock(props) {
     const moveable = data.moveable
     const client = props.client
     const myColor = props.color
+    const roomId = props.roomId
 
     const row = props.row
     const col = props.col
@@ -84,7 +85,7 @@ function ChessBlock(props) {
     return (
         <div className="chess-block" style={chessBlockStyle} onClick={() => {
             if (exists) {
-                dispatch(moveChessPiece([row,col,myColor,client]))
+                dispatch(moveChessPiece([row,col,myColor,client,roomId]))
             }
         }}>
             <div className='piece' onClick={() => {
@@ -112,6 +113,7 @@ function ChessBoardRow(props) {
             col={c}
             client={props.client}
             color={props.color}
+            roomId={props.roomId}
         ></ChessBlock>)
     }
 
@@ -151,13 +153,13 @@ function ChessBoard(props) {
         stompClient.connect({roomId : uuid}, () => {
             console.log("Connected!");
 
-            stompClient.subscribe("/sub/chess/move", (msg) => {
-                const received = JSON.parse(msg.body).body
+            stompClient.subscribe(`/sub/chess/move/${uuid}`, (msg) => {
+                const received = JSON.parse(msg.body)
                 console.log(received)
                 dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
             });
 
-            stompClient.subscribe("/sub/chess/leave", (msg) => {
+            stompClient.subscribe(`/sub/chess/leave/${uuid}`, (msg) => {
                 const received = msg.body
                 console.log(received)
                 if (received === "LEAVE") {
@@ -166,7 +168,7 @@ function ChessBoard(props) {
                 }
             });
 
-            stompClient.subscribe("/sub/chess/status", (msg) => {
+            stompClient.subscribe(`/sub/chess/status/${uuid}`, (msg) => {
                 if (msg.body === "FULL") {
                     alert("다른 누군가가 접근하여 종료합니다.");
                     navigate("/")
@@ -186,6 +188,7 @@ function ChessBoard(props) {
                 stompClient.send(
                     "/pub/chess/leave",
                     {},
+                    uuid
                 );
                 stompClient.disconnect();
             }
@@ -198,6 +201,7 @@ function ChessBoard(props) {
             row={r} 
             client={client}
             color={color}
+            roomId={uuid}
         ></ChessBoardRow>)
     }
 
