@@ -98,7 +98,7 @@ function GamePage() {
                 다른 사람에게 방 id를 보내주세요 <br></br>
                 id : <span style={{fontSize:"18px"}}>{uuid}</span> <br></br>
 
-                <div style={{marginTop:"30px"}}>
+                <div style={{marginTop:"30px"}} hidden={waiting}>
                     나의 색깔 : {myColor} <br></br>
                     상대 색깔 : {youColor} <br></br>
                 </div>
