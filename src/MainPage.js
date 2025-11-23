@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 function MainPage() {
     const navigate = useNavigate()
@@ -8,11 +9,11 @@ function MainPage() {
         <div>
             메인 화면
             <button onClick={()=>{
-                navigate("/chessboard",{ state: {color:"white"}})
+                navigate("/chessboard"+"/"+uuidv4(),{ state: {color:"white"}})
             }}>방 만들기</button>
             <div>
                 <button onClick={()=>{
-                    navigate("/chessboard",{ state: {color:"black"}})
+                    navigate("/chessboard"+"/"+uuidv4(),{ state: {color:"black",id : uuidv4()}})
                 }}>입장하기</button>
             </div>
         </div>
