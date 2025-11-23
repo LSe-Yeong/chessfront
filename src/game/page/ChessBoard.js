@@ -122,7 +122,7 @@ function ChessBoardRow(props) {
     )
 }
 
-function ChessBoard() {  
+function ChessBoard(props) {  
     const [client, setClient] = useState(null);
     const dispatch=useDispatch();
     const data=useSelector((state)=>{
@@ -131,6 +131,8 @@ function ChessBoard() {
     const navigate = useNavigate();
     const location = useLocation();
     const color = location.state.color
+
+    const uuid = props.uuid
 
     useEffect(()=> {
         const socket = new SockJS("http://localhost:8080/ws");
@@ -146,7 +148,7 @@ function ChessBoard() {
 
         console.log(socket)
 
-        stompClient.connect({}, () => {
+        stompClient.connect({roomId : uuid}, () => {
             console.log("Connected!");
 
             stompClient.subscribe("/sub/chess/move", (msg) => {
@@ -160,6 +162,13 @@ function ChessBoard() {
                 console.log(received)
                 if (received === "LEAVE") {
                     alert("상대방이 떠났습니다.")
+                    navigate("/")
+                }
+            });
+
+            stompClient.subscribe("/sub/chess/status", (msg) => {
+                if (msg.body === "FULL") {
+                    alert("다른 누군가가 접근하여 종료합니다.");
                     navigate("/")
                 }
             });

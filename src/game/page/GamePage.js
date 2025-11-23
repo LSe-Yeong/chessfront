@@ -24,7 +24,7 @@ function GamePage() {
                     상대 색깔 : {youColor} <br></br>
                 </div>
             </div>
-            <ChessBoard></ChessBoard>
+            <ChessBoard uuid={uuid}></ChessBoard>
         </div>
     )
 }
