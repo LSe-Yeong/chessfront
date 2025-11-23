@@ -126,6 +126,7 @@ function ChessBoardRow(props) {
 
 function ChessBoard(props) {  
     const [client, setClient] = useState(null);
+
     const dispatch=useDispatch();
     const data=useSelector((state)=>{
       return state.data;
@@ -135,6 +136,9 @@ function ChessBoard(props) {
     const color = location.state.color
 
     const uuid = props.uuid
+    const type = props.type
+
+    const [waiting,setWaiting] = useState(type==="JOIN" ? false : true)
 
     useEffect(()=> {
         const socket = new SockJS("http://localhost:8080/ws");
@@ -174,6 +178,15 @@ function ChessBoard(props) {
                     navigate("/")
                 }
             });
+
+            stompClient.subscribe(`/sub/chess/join/${uuid}`, (msg) => {
+                console.log("다른 유저 접속함.")
+                setWaiting(false)
+            });
+
+            if(type==="JOIN"){
+                stompClient.send("/pub/chess/join",{},uuid)
+            }
         },
         (error) => {
             console.error("연결 실패", error);
@@ -196,13 +209,17 @@ function ChessBoard(props) {
     },[])
 
     const chessBoard = []
-    for (let r = 0; r < chessSize; r++) {
-       chessBoard.push(<ChessBoardRow 
-            row={r} 
-            client={client}
-            color={color}
-            roomId={uuid}
-        ></ChessBoardRow>)
+    if(!waiting) {
+        for (let r = 0; r < chessSize; r++) {
+        chessBoard.push(<ChessBoardRow 
+                row={r} 
+                client={client}
+                color={color}
+                roomId={uuid}
+            ></ChessBoardRow>)
+        }
+    } else {
+        chessBoard.push(<h2>다른 유저 접속 대기 중.</h2>)
     }
 
     return (

@@ -9,6 +9,7 @@ function GamePage() {
 
     const location = useLocation();
     const color = location.state.color
+    const type = location.state.type
 
     const myColor = color === "white" ? "white" : "black"
     const youColor = color === "white" ? "black" : "white"
@@ -24,7 +25,7 @@ function GamePage() {
                     상대 색깔 : {youColor} <br></br>
                 </div>
             </div>
-            <ChessBoard uuid={uuid}></ChessBoard>
+            <ChessBoard uuid={uuid} type={type}></ChessBoard>
         </div>
     )
 }

@@ -18,7 +18,7 @@ function MainPage() {
                     console.log(code)
                 }}></input>
                 <button onClick={()=>{
-                    navigate("/chessboard"+"/"+code,{ state: {color:"black",id : code}})
+                    navigate("/chessboard"+"/"+code,{ state: {color:"black",id : code, type:"JOIN"}})
                 }}>입장하기</button>
             </div>
         </div>
