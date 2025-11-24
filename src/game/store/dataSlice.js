@@ -134,9 +134,12 @@ const dataSlice = createSlice({
                     }
                 }
             }
+        },
+        resetBoard: (state) => {
+            return initialState;
         }
     }
 });
 
 export default dataSlice;
-export const {updateBlackSelected, updateWhiteSelected, moveChessPiece,moveChessPieceByName} = dataSlice.actions; 
+export const {updateBlackSelected, updateWhiteSelected, moveChessPiece,moveChessPieceByName,resetBoard} = dataSlice.actions; 

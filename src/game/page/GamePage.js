@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import { Stomp } from '@stomp/stompjs';
 import { useDispatch } from "react-redux";
-import { moveChessPieceByName } from "../store/dataSlice";
+import { moveChessPieceByName, resetBoard } from "../store/dataSlice";
 
 function GamePage() {
     const [client, setClient] = useState(null);
@@ -29,7 +29,7 @@ function GamePage() {
     const navigate = useNavigate()
 
     useEffect(()=> {
-
+        dispatch(resetBoard())
         
         const socket = new SockJS("http://localhost:8080/ws");
     
