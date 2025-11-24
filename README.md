@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+# 7️⃣ 오픈 미션 - 변칙 체스 (FE)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📋 기능 목록
+- [x] 체스판 화면 구현
+    - [x] 기본적인 체스판 화면 구현
+    - [x] 흑/백 각각의 기물이 올라간 화면 구현 
+- [x] 체스 기물 눌렀을 때 이동할 수 있는 칸 표시 기능 구현
+    - [x] 폰 기물이 이동할 수 있는 칸 표시 기능 구현
+    - [x] 폰 이외에 기물이 이동할 수 있는 칸 표시 기능 구현
+    - [x] 이동할 수 있는 칸을 클릭했을 때 실제로 이동하는 기능 구현
+- [x] 실시간 통신 기능 구현
+    - [x] 기물을 놓았을 때의 정보를 서버에 전송 기능 구현
+    - [x] 이후 서버에서 받은 새로운 체스판 정보를 반영하는 기능 구현
+    - [x] 방이 개설되면 팀을 배정받는 기능 구현
+    - [x] 방 개설 및 입장 기능 만들기
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🔎 요구사항 점검
+- [x] 기능을 구현하기 전 `기능 목록`을 작성하였는가?
+- [x] [AngularJS Git Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)에 맞춰
+  `Commit Message`를 작성하였는가?
