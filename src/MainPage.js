@@ -11,7 +11,7 @@ function MainPage() {
     return(
         <div>
             <div>
-                <h1>온라인 체스 게임</h1>
+                <h1>온라인 체스 게임 (By Seyeong)</h1>
             </div>
             <div>
                 <h2>방 만들기</h2>
