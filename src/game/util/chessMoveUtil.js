@@ -239,3 +239,19 @@ export function findPieceIndex(pieces,row,col) {
     }
     return null
 }
+
+export function isFinishGame(pieces, differentPieces) {
+    let kingCount = 0
+    for(let i = 0; i < pieces.length; i++) {
+        if (pieces[i]["name"] === "king") {
+            kingCount += 1
+        } 
+    }
+    for(let i = 0; i < differentPieces.length; i++) {
+        if (differentPieces[i]["name"] === "king") {
+            kingCount += 1
+        } 
+    }
+
+    return kingCount != 2
+}

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { chessPiecesBlack, chessPiecesWhite } from "../model/ChessPiece";
-import { findMoveable, findPieceIndex } from "../util/chessMoveUtil";
+import { findMoveable, findPieceIndex, isFinishGame } from "../util/chessMoveUtil";
 
 const initialState = {
     blackPieces : chessPiecesBlack,
@@ -51,6 +51,7 @@ const dataSlice = createSlice({
             const color = action.payload[2];
             const client = action.payload[3];
             const roomId = action.payload[4];
+            const nickname = action.payload[5];
 
             const pieces = color === "white" ? state.whitePieces : state.blackPieces
             const differentPieces = color === "white" ? state.blackPieces : state.whitePieces
@@ -91,6 +92,22 @@ const dataSlice = createSlice({
                     }
                 } else {
                     pieces[i]["selected"] = false
+                }
+            }
+
+            if (isFinishGame(pieces,differentPieces)) {
+                if (client) {
+                    client.send(
+                        `/pub/chess/status`,
+                        {},
+                        JSON.stringify(
+                            {
+                                "roomId" : roomId,
+                                "status" : "FINISH",
+                                "winner" : nickname
+                            }
+                        )
+                    );
                 }
             }
         },

@@ -24,6 +24,8 @@ function ChessBlock(props) {
     const roomId = props.roomId
     const turn = props.turn
     const setTurn = props.setTurn
+    const nickname = props.nickname
+    const finish = props.finish
 
     console.log(myColor)
 
@@ -89,11 +91,16 @@ function ChessBlock(props) {
     return (
         <div className="chess-block" style={chessBlockStyle} onClick={() => {
             if (exists) {
-                dispatch(moveChessPiece([row,col,myColor,client,roomId]))
+                dispatch(moveChessPiece([row,col,myColor,client,roomId,nickname]))
+
             }
         }}>
             <div className='piece' onClick={() => {
                 const color = findPieceColor()
+                if (finish) {
+                    return 
+                }
+                
                 if (!color || color !== myColor) {
                     return 
                 }
@@ -124,6 +131,8 @@ function ChessBoardRow(props) {
             roomId={props.roomId}
             turn={props.turn}
             setTurn={props.setTurn}
+            nickname={props.nickname}
+            finish={props.finish}
         ></ChessBlock>)
     }
 
@@ -149,6 +158,8 @@ function ChessBoard(props) {
                 roomId={props.roomId}
                 turn={props.turn}
                 setTurn={props.setTurn}
+                nickname={props.nickname}
+                finish={props.finish}
             ></ChessBoardRow>)
         }
     } else {

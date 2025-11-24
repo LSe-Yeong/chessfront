@@ -24,10 +24,13 @@ function GamePage() {
 
     const [waiting,setWaiting] = useState(type==="JOIN" ? false : true)
     const [turn,setTurn] = useState("white")
+    const [finish,setFinish] = useState(false)
 
     const navigate = useNavigate()
 
     useEffect(()=> {
+
+        
         const socket = new SockJS("http://localhost:8080/ws");
     
         const stompClient = Stomp.over(socket);
@@ -65,6 +68,11 @@ function GamePage() {
                 if (msg.body === "FULL") {
                     alert("다른 누군가가 접근하여 종료합니다.");
                     navigate("/")
+                }
+                if (JSON.parse(msg.body).status === "FINISH") {
+                    alert("게임이 종료되었습니다. " + JSON.parse(msg.body).winner +"님이 승리하셨습니다.")
+                    setFinish(true)
+                    stompClient.disconnect()
                 }
             });
 
@@ -137,6 +145,8 @@ function GamePage() {
                 waiting={waiting}
                 turn={turn}
                 setTurn={setTurn}
+                nickname={nickname}
+                finish={finish}
             ></ChessBoard>
         </div>
     )
