@@ -1,12 +1,7 @@
 import './ChessBoard.css'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { moveChessPiece, moveChessPieceByName, updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
-import { useEffect, useState } from 'react';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { parseUuid } from '../util/basicUtil.js';
+import { moveChessPiece, updateBlackSelected, updateWhiteSelected } from '../store/dataSlice.js';
 
 const chessSize = 8
 
@@ -100,7 +95,7 @@ function ChessBlock(props) {
                 if (finish) {
                     return 
                 }
-                
+
                 if (!color || color !== myColor) {
                     return 
                 }

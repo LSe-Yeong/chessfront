@@ -8,8 +8,8 @@ export const chessPiecesBlack = [
     },
     {
         name : "leftKnight",
-        row : 2,
-        col : 2,
+        row : 0,
+        col : 1,
         piece : "♞",
         selected : false,
     },
@@ -64,7 +64,7 @@ export const chessPiecesBlack = [
     },
     {
         name : "pawn2",
-        row : 4,
+        row : 1,
         col : 1,
         piece : "♟",
         selected : false,
@@ -186,7 +186,7 @@ export const chessPiecesWhite = [
     },
     {
         name : "pawn3",
-        row : 5,
+        row : 6,
         col : 2,
         piece : "♟",
         selected : false,
