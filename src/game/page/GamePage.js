@@ -54,6 +54,7 @@ function GamePage() {
                 console.log(received)
                 if (received === "LEAVE") {
                     alert("상대방이 떠났습니다.")
+                    stompClient.disconnect()
                     navigate("/")
                 }
             });
@@ -82,17 +83,29 @@ function GamePage() {
 
         setClient(stompClient);
 
-        return () => {
+        const navigationEntries = performance.getEntriesByType("navigation");
+        if (navigationEntries.length > 0 && navigationEntries[0].type === "reload") {
+            stompClient.disconnect()
+            navigate("/");
+        }
+
+        const handleBeforeUnload = () => {
             if (stompClient && stompClient.connected) {
-                stompClient.send(
-                    "/pub/chess/leave",
-                    {},
-                    uuid
-                );
+                stompClient.send("/pub/chess/leave", {}, uuid);
                 stompClient.disconnect();
             }
         };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
     },[])
+
+    useEffect(() => {
+        
+    }, []);
 
     return (
         <div className="game-page">
