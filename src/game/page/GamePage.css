@@ -1,4 +1,15 @@
 .game-page {
+    height: 815px;
     display: flex;
     flex-direction: row;
+    background-color: lightgray;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
 }

@@ -129,13 +129,13 @@ function GamePage() {
                 id : <span style={{fontSize:"18px"}}>{uuid}</span> <br></br>
 
                 <div style={{marginTop:"30px"}} hidden={waiting}>
-                    {myColor} : {nickname} <br></br>
-                    {youColor} : {youNickname}<br></br>
+                    <span style={{fontSize:"50px"}}>♜</span> {nickname} <br></br>
+                    <span style={{fontSize:"50px",color:"white"}}>♜</span> {youNickname}<br></br>
                     <br></br>
                     <br></br>
                     <br></br>
 
-                    현재 턴 : {turn} <br></br>
+                    <span style={{fontSize:"50px",color: turn==="white" ? "white" : "black"}}>♜</span> 차례 입니다.<br></br>
                 </div>
             </div>
             <ChessBoard 
