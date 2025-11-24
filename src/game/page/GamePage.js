@@ -16,6 +16,8 @@ function GamePage() {
     const location = useLocation();
     const color = location.state.color
     const type = location.state.type
+    const nickname = location.state.nickname
+    const [youNickname, setYouNickname] = useState("")
 
     const myColor = color === "white" ? "white" : "black"
     const youColor = color === "white" ? "black" : "white"
@@ -66,13 +68,18 @@ function GamePage() {
                 }
             });
 
-            stompClient.subscribe(`/sub/chess/join/${uuid}`, (msg) => {
+            stompClient.subscribe(`/sub/chess/join/${uuid}/${type}`, (msg) => {
                 console.log("다른 유저 접속함.")
+                console.log(JSON.parse(msg.body))
                 setWaiting(false)
+                setYouNickname(JSON.parse(msg.body).nickname)
+                if (type === "WAITING") {
+                    stompClient.send("/pub/chess/join",{},JSON.stringify({roomId:uuid,nickname:nickname,type:type}))
+                }
             });
 
             if(type==="JOIN"){
-                stompClient.send("/pub/chess/join",{},uuid)
+                stompClient.send("/pub/chess/join",{},JSON.stringify({roomId:uuid,nickname:nickname,type:type}))
             }
         },
         (error) => {
@@ -114,9 +121,8 @@ function GamePage() {
                 id : <span style={{fontSize:"18px"}}>{uuid}</span> <br></br>
 
                 <div style={{marginTop:"30px"}} hidden={waiting}>
-                    나의 색깔 : {myColor} <br></br>
-                    상대 색깔 : {youColor} <br></br>
-
+                    {myColor} : {nickname} <br></br>
+                    {youColor} : {youNickname}<br></br>
                     <br></br>
                     <br></br>
                     <br></br>
