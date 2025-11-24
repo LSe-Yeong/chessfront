@@ -122,8 +122,8 @@ function GamePage() {
                 id : <span style={{fontSize:"18px"}}>{uuid}</span> <br></br>
 
                 <div style={{marginTop:"30px"}} hidden={waiting}>
-                    <span style={{fontSize:"50px"}}>♜</span> {nickname} <br></br>
-                    <span style={{fontSize:"50px",color:"white"}}>♜</span> {youNickname}<br></br>
+                    <span style={{fontSize:"50px", color:myColor}}>♜</span> {nickname} <br></br>
+                    <span style={{fontSize:"50px",color:youColor}}>♜</span> {youNickname}<br></br>
                     <br></br>
                     <br></br>
                     <br></br>
