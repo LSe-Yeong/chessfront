@@ -12,16 +12,9 @@
     - [x] 기물을 놓았을 때의 정보를 서버에 전송 기능 구현
     - [x] 이후 서버에서 받은 새로운 체스판 정보를 반영하는 기능 구현
     - [x] 방이 개설되면 팀을 배정받는 기능 구현
-    - [ ] 방 개설 및 입장 기능 만들기
+    - [x] 방 개설 및 입장 기능 만들기
 
 ## 🔎 요구사항 점검
-- [ ] 기능을 구현하기 전 `기능 목록`을 작성하였는가?
-- [ ] [AngularJS Git Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)에 맞춰
+- [x] 기능을 구현하기 전 `기능 목록`을 작성하였는가?
+- [x] [AngularJS Git Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)에 맞춰
   `Commit Message`를 작성하였는가?
-
-- [ ] `indent`의 `depth`가 3을 넘지 않았는가? (2까지만)
-- [ ] `3항 연산자`를 사용하지 않았는가?
-- [ ] 함수가 `한 가지일`만 하도록 최대한 작게 만들었는가?
-
-- [ ] 함수의 길이가 `15 라인`을 넘어가지 않는가?
-- [ ] `else`예약어를 쓰지 않았는가?
