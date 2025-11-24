@@ -22,8 +22,6 @@ function ChessBlock(props) {
     const nickname = props.nickname
     const finish = props.finish
 
-    console.log(myColor)
-
     const row = props.row
     const col = props.col
 

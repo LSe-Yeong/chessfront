@@ -31,7 +31,7 @@ function GamePage() {
     useEffect(()=> {
         dispatch(resetBoard())
 
-        const socket = new SockJS("http://ec2-34-220-162-193.us-west-2.compute.amazonaws.com:8080/ws");
+        const socket = new SockJS("https://www.chessgame.store/ws");
     
         const stompClient = Stomp.over(socket);
 
@@ -42,21 +42,16 @@ function GamePage() {
             }
         }, 2000);
 
-        console.log(socket)
-
         stompClient.connect({roomId : uuid}, () => {
-            console.log("Connected!");
 
             stompClient.subscribe(`/sub/chess/move/${uuid}`, (msg) => {
                 const received = JSON.parse(msg.body)
-                console.log(received)
                 dispatch(moveChessPieceByName([received["afterRow"],received["afterCol"],received["color"],received["name"]]))
                 setTurn(received["nextTurn"])
             });
 
             stompClient.subscribe(`/sub/chess/leave/${uuid}`, (msg) => {
                 const received = msg.body
-                console.log(received)
                 if (received === "LEAVE") {
                     alert("상대방이 떠났습니다.")
                     stompClient.disconnect()
@@ -77,8 +72,6 @@ function GamePage() {
             });
 
             stompClient.subscribe(`/sub/chess/join/${uuid}/${type}`, (msg) => {
-                console.log("다른 유저 접속함.")
-                console.log(JSON.parse(msg.body))
                 setWaiting(false)
                 setYouNickname(JSON.parse(msg.body).nickname)
                 if (type === "WAITING") {

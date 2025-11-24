@@ -1,6 +1,5 @@
 export function findMoveable(blackPieces, whitePieces, row, col, color) {
     let pieceName
-    console.log(color)
     if (color === "white") {
         pieceName = findPieceName(whitePieces,row,col)
     } else {
@@ -8,7 +7,6 @@ export function findMoveable(blackPieces, whitePieces, row, col, color) {
     }
 
     const moveableList = []
-    console.log(pieceName)
     if (pieceName.includes("pawn")) {
         findPawnMove(blackPieces,whitePieces,row,col,moveableList,color)
     } else if (pieceName.includes("Rook")) {
@@ -231,7 +229,6 @@ function findKingMove(blackPieces,whitePieces,row,col,moveableList,color) {
 }
 
 export function findPieceIndex(pieces,row,col) {
-    console.log(row,col)
     for(let i = 0; i < pieces.length; i++) {
         if (pieces[i]["row"] === row && pieces[i]["col"] === col) {
             return i

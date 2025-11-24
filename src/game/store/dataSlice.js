@@ -87,7 +87,6 @@ const dataSlice = createSlice({
 
                     const idx = findPieceIndex(differentPieces,row,col)
                     if (idx != null) {
-                        console.log(idx)
                         differentPieces.splice(idx,1)
                     }
                 } else {
@@ -122,14 +121,12 @@ const dataSlice = createSlice({
             const differentPieces = color === "white" ? state.blackPieces : state.whitePieces
 
             for (let i = 0; i < pieces.length; i++) {
-                console.log(pieces[i]["name"])
                 if (pieces[i]["name"] === name) {
                     pieces[i]["row"] = row
                     pieces[i]["col"] = col
 
                     const idx = findPieceIndex(differentPieces,row,col)
                     if (idx != null) {
-                        console.log(idx)
                         differentPieces.splice(idx,1)
                     }
                 }

@@ -30,7 +30,6 @@ function MainPage() {
                 <span>방 ID 입력 : </span>
                 <input style={{marginLeft:"10px"}} onChange={(event)=>{
                     setCode(event.target.value)
-                    console.log(code)
                 }}></input> <br></br>
                 <span>닉네임 : </span>
                 <input style={{marginLeft:"10px"}} onChange={(event)=>{
