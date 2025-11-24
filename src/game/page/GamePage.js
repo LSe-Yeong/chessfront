@@ -31,7 +31,7 @@ function GamePage() {
     useEffect(()=> {
         dispatch(resetBoard())
 
-        const socket = new SockJS("http://localhost:8080/ws");
+        const socket = new SockJS("http://ec2-34-220-162-193.us-west-2.compute.amazonaws.com:8080/ws");
     
         const stompClient = Stomp.over(socket);
 
@@ -40,7 +40,7 @@ function GamePage() {
                 alert("방이 가득 찼습니다.");
                 navigate("/");
             }
-        }, 500);
+        }, 2000);
 
         console.log(socket)
 
